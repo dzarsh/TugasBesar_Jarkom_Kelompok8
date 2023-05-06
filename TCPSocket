@@ -1,25 +1,46 @@
+#import socket module
 from socket import *
+import sys
 
-#membuat TCP socket
-serverSocket = socket(AF_INET, SOCK_STREAM)
+def TCPserver():
+    #mengaitkan ke alamat dan port tertentu
+    serverHost = 'localhost'
+    serverPort = 8080
+    
+    #membuat TCP socket
+    serverSocket = socket(AF_INET, SOCK_STREAM)
+    serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 
-#mengaitkan ke alamat dan port tertentu
-serverName = ‘localhost’
-serverPort = 8080
-serverSocket.bind((serverName, serverPort))
+    #mendengarkan koneksi dari client
+    serverSocket.bind((serverHost, serverPort))
+    serverSocket.listen(1)
 
-#mendengarkan koneksi dari client
-serverSocket.listen(1)
-print(‘The server is ready to receive’)
+    while True:
+        #menerima koneksi dari client
+        print("Server Ready....")
+        connectionSocket, addr = serverSocket.accept()
 
-while True:
-    #menerima koneksi dari client
-    connectionSocket, addr = serverSocket.accept()
-    print('Connected with client')
+        #meminta 
+        request = connectionSocket.recv(1024).decode()
+        print("Dari client: "+request)
 
-    #mengirim pesan ke client
-    message = ‘Welcome to our server’
-    connectionSocket.send(message.encode())
+        #memberi respon 
+        response = handleRequest()
+        connectionSocket.send(response.encode())
 
-    #menutup koneksi
-    connectionSocket.close()
+        #menutup koneksi
+        connectionSocket.close()
+
+    #menutup server
+    serverSocket.close()
+    
+def handleRequest():
+    responseLine = "HTTP/1.1 200 OK\r\n"
+    contentType = "Content-type: text/HTML\r\n\r\n"
+    messageBody = "<HTML><body><h1>Hello Web Server<h1><body><HTML>"
+    
+    response = response_line+content_type+message_body
+    return response
+    
+if _name_ == '_main_':
+    TCPserver()
