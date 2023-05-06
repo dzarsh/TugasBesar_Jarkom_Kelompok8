@@ -1,0 +1,25 @@
+from socket import *
+
+#membuat TCP socket
+serverSocket = socket(AF_INET, SOCK_STREAM)
+
+#mengaitkan ke alamat dan port tertentu
+serverName = ‘localhost’
+serverPort = 8080
+serverSocket.bind((serverName, serverPort))
+
+#mendengarkan koneksi dari client
+serverSocket.listen(1)
+print(‘The server is ready to receive’)
+
+while True:
+    #menerima koneksi dari client
+    connectionSocket, addr = serverSocket.accept()
+    print('Connected with client')
+
+    #mengirim pesan ke client
+    message = ‘Welcome to our server’
+    connectionSocket.send(message.encode())
+
+    #menutup koneksi
+    connectionSocket.close()
