@@ -1,0 +1,13 @@
+.greeting {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.row {
+    grid-column: span 12;
+    -ms-grid-row-align: center;
+    -ms-grid-column-align: center;
+    text-align: center;
+}
