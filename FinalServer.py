@@ -38,7 +38,7 @@ def handle_connection(client_socket): #fungsi handle_connection
         response = create_response(filename, content) #memanggil fungsi create_response untuk membuat response
     else:
         response = "HTTP/1.1 404 Not Found\r\n\r\n".encode() #jika file tidak sesuai makana kan muncul pesan error
-        response += "<html><head></head><body><h1>404 Not Found</h1></body><html>\r\n\r\n".encode()
+        response += "<html><head><title>404 Not Found</title></head><body><h1>404 Not Found</h1></body><html>\r\n\r\n".encode()
 
     #mengirim respon ke klien
     client_socket.sendall(response) #mengirim response dari server ke klien
